@@ -3,12 +3,36 @@
 import logging
 
 _log = logging.getLogger(__name__)
-_log.setLevel(logging.DEBUG)
+_log.setLevel(logging.ERROR)
+
+
+def get_dict_path():
+    """ Get directory of (bundled) dictionaries.
+        Helper to access the dictionaries that are bundled wwith this package.
+    """
+    return os.path.join(os.path.abspath(os.path.dirname(__file__)), "data")
 
 
 class ProbabilisticSpellChecker(object):
+    """ Probabilistic Spell Checker.
+
+        checker = ProbabilisticSpellChecker(word_count_dict, word_whitelist)
+        suggestion = checker.correction(word)
+        if suggestion:
+            word = suggestion
+    """
 
     def __init__(self, word_counts, word_whitelist, charset=None):
+        """ Initialize probabilistic spell checker.
+
+            @param word_counts (dict: str -> int) Word to frequency map of
+                known words.
+            @param word_whitelist (list of str) Additional preferred words,
+                e.g. your exotic name.
+            @param charset (str) String containing all allowed characters
+                (used for generating word variations, defaults to lowercase
+                German alphabet, i.e. a-zäöüß).
+        """
         total_word_count = float(sum(word_counts.values()))
         self.word_probabilities = {
             word: count / total_word_count
@@ -30,6 +54,12 @@ class ProbabilisticSpellChecker(object):
             self.charset = "abcdefghijklmnopqrstuvwxyzäöüß"
 
     def correction(self, word):
+        """ Find corrected word.
+
+            @param word (str) The suspect word.
+            @returns str The corrected word (may be the original word if it
+                is found to be correct), or None.
+        """
         if word in self.words:
             return word
         candidates = self.candidates(word)
@@ -48,6 +78,7 @@ class ProbabilisticSpellChecker(object):
         return most_probable_candidate
 
     def candidates(self, word):
+        """ Set of candidates for correct word, based on the suspect word. """
         leven_1 = self.levenshtein_1(word).intersection(self.words)
         if leven_1:
             return leven_1
@@ -56,6 +87,7 @@ class ProbabilisticSpellChecker(object):
         return set()
 
     def levenshtein_1(self, word):
+        """ Candidates with a Levenshtein distance of 1. """
         splits = [(word[:i], word[i:]) for i in range(len(word)+1)]
         inserts = [
             left + ch + right
@@ -81,6 +113,7 @@ class ProbabilisticSpellChecker(object):
         return set(inserts + deletes + swaps + replaces)
 
     def levenshtein_2(self, word):
+        """ Candidates with a Levenshtein distance of 2. """
         return set(
             leven_2
             for leven_1 in self.levenshtein_1(word)

@@ -3,6 +3,9 @@
 Spell checker based on edit distance (Levenshtein-ish) and word frequency
 in a training corpus.
 
+    For theoretical background, see Peter Norvig's article,
+https://norvig.com/spell-correct.html
+
 Comes with a dictionary trained from German Wikipedia articles.
 
 Usage:
@@ -34,7 +37,7 @@ might need to pass an additional charset parameter which is a string with
 all allowed characters of your language, to the ProbabilisticSpellChecker.
 This is then used to generate candidate words.
 
-== Logging ==
+## Logging
 
 If the logging annoys you, just shut it up:
 
