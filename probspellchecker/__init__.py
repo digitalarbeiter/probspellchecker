@@ -57,6 +57,11 @@ class ProbabilisticSpellChecker(object):
 
     def levenshtein_1(self, word):
         splits = [(word[:i], word[i:]) for i in range(len(word)+1)]
+        inserts = [
+            left + ch + right
+            for left, right in splits
+            for ch in self.charset
+        ]
         deletes = [
             left + right[1:]
             for left, right in splits
@@ -73,12 +78,7 @@ class ProbabilisticSpellChecker(object):
             if right
             for ch in self.charset
         ]
-        inserts = [
-            left + ch + right
-            for left, right in splits
-            for ch in self.charset
-        ]
-        return set(deletes + swaps + replaces + inserts)
+        return set(inserts + deletes + swaps + replaces)
 
     def levenshtein_2(self, word):
         return set(
