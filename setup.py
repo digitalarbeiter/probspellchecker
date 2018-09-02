@@ -7,7 +7,7 @@ setup(
     name="probspellchecker",
     version="0.1.0",
     description="probabilistic spell checker",
-    license="GPLv2",
+    license="LGPLv3",
     long_description=long_description,
     author="digitalarbeiter",
     author_email="digitalarbeiter@talbriefkasten.de",
