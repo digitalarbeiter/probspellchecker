@@ -15,7 +15,6 @@ setup(
     url="https://github.com/digitalarbeiter/probspellchecker",
     packages=["probspellchecker"],
     install_requires=[
-        "logging",
     ],
     scripts=[
         "scripts/probdict-from-dewiki.py",
