@@ -5,7 +5,7 @@ with open("README.md") as f:
 
 setup(
     name="probspellchecker",
-    version="0.1.2",
+    version="0.1.3",
     description="probabilistic spell checker",
     license="LGPLv3",
     long_description=long_description,
