@@ -9,6 +9,7 @@ setup(
     description="probabilistic spell checker",
     license="LGPLv3",
     long_description=long_description,
+    long_description_content_type="text/markdown",
     author="digitalarbeiter",
     author_email="digitalarbeiter@talbriefkasten.de",
     url="https://github.com/digitalarbeiter/probspellchecker",
